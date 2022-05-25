@@ -83,9 +83,15 @@ rtError rtRemoteAdapter::connectParodus() {
  *  @return : void.
  */
 void rtRemoteAdapter::disconnectParodus() {
-    int res = libparodus_shutdown(&m_current_instance);
-    if(res != RT_OK) {
-        rtLogDebug("Failed to disconnect parodus: '%d'",res);
+    if(m_current_instance != NULL)
+    {
+        int res = libparodus_shutdown(&m_current_instance);
+        if(res != RT_OK) {
+            rtLogDebug("Failed to disconnect parodus: '%d'",res);
+        }
+    }
+    else{
+        rtLogDebug("No parodus instance available");
     }
 }
 
