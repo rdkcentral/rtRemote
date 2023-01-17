@@ -834,12 +834,21 @@ rtRemoteServer::onGet(std::shared_ptr<rtRemoteClient>& client, rtRemoteMessagePt
     rtError err = RT_OK;
     rtValue value;
 
+    rtValue sessid, *psessid = nullptr;
+
+    auto itr = doc->FindMember(kFieldNameSession);
+
+    if (itr != doc->MemberEnd()) {
+      err = rtRemoteValueReader::read(m_env, sessid, itr->value, client);
+      psessid = &sessid;
+    }
+
     uint32_t    index = 0;
     char const* name = rtMessage_GetPropertyName(*doc);
 
     if (name)
     {
-      err = obj->Get(name, &value);
+      err = obj->Get(name, &value, psessid);
       if (err != RT_OK)
       {
         rtLogWarn("failed to get property: %s. %s", name, rtStrError(err));
@@ -917,6 +926,7 @@ rtRemoteServer::onSet(std::shared_ptr<rtRemoteClient>& client, rtRemoteMessagePt
     rtError err = RT_FAIL;
 
     rtValue value;
+    rtValue sessid, *psessid = nullptr;
 
     auto itr = doc->FindMember(kFieldNameValue);
     RT_ASSERT(itr != doc->MemberEnd());
@@ -926,11 +936,18 @@ rtRemoteServer::onSet(std::shared_ptr<rtRemoteClient>& client, rtRemoteMessagePt
 
     if (err == RT_OK)
     {
+      auto itr = doc->FindMember(kFieldNameSession);
+
+      if (itr != doc->MemberEnd()) {
+        err = rtRemoteValueReader::read(m_env, sessid, itr->value, client);
+        psessid = &sessid;
+      }
+
       char const* name = rtMessage_GetPropertyName(*doc);
 
       if (name)
       {
-        err = obj->Set(name, &value);
+        err = obj->Set(name, &value, psessid);
       }
       else
       {
