@@ -33,9 +33,9 @@ public:
   rtRemoteObject(std::string const& id, std::shared_ptr<rtRemoteClient> const& transport);
   virtual ~rtRemoteObject();
 
-  virtual rtError Get(char const* name, rtValue* value,rtValue* session=nullpt) const;
+  virtual rtError Get(char const* name, rtValue* value,rtValue* session=nullptr) const;
   virtual rtError Get(uint32_t index, rtValue* value) const;
-  virtual rtError Set(char const* name, rtValue const* value, rtValue* session=nullpt);
+  virtual rtError Set(char const* name, rtValue const* value, rtValue* session=nullptr);
   virtual rtError Set(uint32_t index, rtValue const* value);
 
   virtual unsigned long AddRef();
