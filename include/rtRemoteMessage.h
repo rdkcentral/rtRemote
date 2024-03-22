@@ -61,6 +61,7 @@ limitations under the License.
 #define kFieldNameValue "value"
 #define kFieldNameValueType "type"
 #define kFieldNameValueValue "value"
+#define kFieldNameSession "session"
 #define kFieldNameSenderId "sender.id"
 #define kFieldNameKeepAliveIds "keep_alive.ids"
 #define kFieldNameEndPoint "endpoint"
